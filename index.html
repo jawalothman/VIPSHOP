@@ -487,8 +487,34 @@
     </div>
 </div>
 
+<!-- Modal formulaire de commande Formspree -->
+<div id="orderModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center;">
+    <div style="background: white; max-width: 500px; margin: 20px; padding: 2rem; border-radius: 20px; position: relative;">
+        <button id="closeModalBtn" style="position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 1.8rem; cursor: pointer;">&times;</button>
+        <h3 style="margin-bottom: 1rem;">📝 Finaliser votre commande</h3>
+        <form id="orderForm" action="https://formspree.io/f/mzdonqol" method="POST">
+            <input type="hidden" name="commande_details" id="commandeDetails">
+            <input type="hidden" name="montant_total" id="montantTotal">
+            
+            <label style="display: block; margin: 1rem 0 0.3rem;">Nom complet *</label>
+            <input type="text" name="nom" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+            
+            <label style="display: block; margin: 1rem 0 0.3rem;">Email *</label>
+            <input type="email" name="email" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+            
+            <label style="display: block; margin: 1rem 0 0.3rem;">Téléphone</label>
+            <input type="tel" name="telephone" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+            
+            <label style="display: block; margin: 1rem 0 0.3rem;">Adresse de livraison *</label>
+            <textarea name="adresse" rows="3" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;"></textarea>
+            
+            <button type="submit" style="width: 100%; margin-top: 1.5rem; background: #c9a03d; color: white; border: none; padding: 12px; border-radius: 40px; font-weight: bold; cursor: pointer;">✅ Confirmer la commande</button>
+        </form>
+    </div>
+</div>
+
 <script>
-    // =========== BEAUCOUP DE PRODUITS (24 articles) ===========
+    // =========== PRODUITS (24 articles) ===========
     const products = [
         // Accessoires
         { id: 1, name: "Sac en cuir végétal", price: 89.99, icon: "👜", category: "accessoires", badge: "Best Seller" },
@@ -693,18 +719,63 @@
         });
     });
 
-    // Paiement
+    // Gestion du formulaire de commande Formspree
+    const orderModal = document.getElementById("orderModal");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    const orderForm = document.getElementById("orderForm");
+    const commandeDetails = document.getElementById("commandeDetails");
+    const montantTotal = document.getElementById("montantTotal");
+
     document.getElementById("checkoutBtn")?.addEventListener("click", () => {
         if (cart.length === 0) {
             alert("Ajoutez des produits Jawal à votre panier");
             return;
         }
-        alert(`✅ Commande Jawal confirmée ! Total : ${getTotal().toFixed(2)} €\nMerci pour votre confiance.`);
+        
+        // Préparer le détail de la commande
+        let details = "🛍️ DÉTAIL DE LA COMMANDE :\n\n";
+        cart.forEach(item => {
+            details += `• ${item.name} x${item.quantity} = ${(item.price * item.quantity).toFixed(2)} €\n`;
+        });
+        details += `\n💰 TOTAL : ${getTotal().toFixed(2)} €`;
+        
+        commandeDetails.value = details;
+        montantTotal.value = getTotal().toFixed(2) + " €";
+        
+        // Afficher le modal
+        orderModal.style.display = "flex";
+        closeCartSidebar();
+    });
+
+    // Fermer le modal
+    closeModalBtn.addEventListener("click", () => {
+        orderModal.style.display = "none";
+    });
+
+    // Fermer en cliquant en dehors
+    orderModal.addEventListener("click", (e) => {
+        if (e.target === orderModal) {
+            orderModal.style.display = "none";
+        }
+    });
+
+    // Soumission du formulaire
+    orderForm.addEventListener("submit", function(e) {
+        alert("📧 Commande envoyée ! Vous recevrez un email de confirmation.");
         cart = [];
         saveCart();
         updateCartUI();
-        closeCartSidebar();
+        orderModal.style.display = "none";
     });
+
+    // Vérifier si la commande a été envoyée avec succès (redirection Formspree)
+    if (window.location.href.includes("?success")) {
+        alert("✅ Merci ! Votre commande a été reçue. Nous vous contacterons rapidement.");
+        cart = [];
+        saveCart();
+        updateCartUI();
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
 
     loadCart();
     renderProducts();
