@@ -21,7 +21,7 @@
             scroll-behavior: smooth;
         }
 
-        /* Navigation fixe moderne */
+        /* Navigation */
         .navbar {
             position: sticky;
             top: 0;
@@ -122,7 +122,7 @@
             border-radius: 30px;
         }
 
-        /* Hero section avec signature Jawal */
+        /* Hero */
         .hero {
             background: linear-gradient(120deg, #f8f5f0 0%, #e8e2d8 100%);
             padding: 4rem 2rem;
@@ -153,7 +153,6 @@
         }
 
         .hero .signature {
-            font-family: 'Inter', cursive;
             font-size: 1.2rem;
             color: #c9a03d;
             letter-spacing: 2px;
@@ -217,7 +216,7 @@
             border-color: #c9a03d;
         }
 
-        /* Grille produits */
+        /* Produits */
         .products-section {
             max-width: 1400px;
             margin: 2rem auto;
@@ -244,7 +243,6 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             transition: transform 0.2s, box-shadow 0.2s;
             border: 1px solid #edf2f7;
-            cursor: pointer;
         }
 
         .product-card:hover {
@@ -312,7 +310,7 @@
             background: #c9a03d;
         }
 
-        /* Panier latéral */
+        /* Panier */
         .cart-overlay {
             position: fixed;
             top: 0;
@@ -393,6 +391,43 @@
 
         .checkout-btn:hover {
             background: #a07a2a;
+        }
+
+        .continue-shopping {
+            background: #f0f0f0;
+            margin-bottom: 1rem;
+            padding: 10px;
+            border-radius: 40px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .continue-shopping:hover {
+            background: #e0e0e0;
+        }
+
+        /* Notification */
+        .toast-notif {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a2a3a;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 40px;
+            z-index: 1000;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            animation: fadeOut 2s ease forwards;
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            70% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(20px); visibility: hidden; }
         }
 
         footer {
@@ -482,6 +517,7 @@
         <div class="empty-cart" style="text-align:center; padding:2rem;">Votre panier est vide.</div>
     </div>
     <div id="cartFooter" style="display: none;">
+        <button id="continueShoppingBtn" class="continue-shopping"><i class="fas fa-arrow-left"></i> Continuer mes achats</button>
         <div class="cart-total">Total : <span id="cartTotalPrice">0.00</span> €</div>
         <button class="btn checkout-btn" id="checkoutBtn"><i class="fas fa-lock"></i> Commander</button>
     </div>
@@ -516,31 +552,24 @@
 <script>
     // =========== PRODUITS (24 articles) ===========
     const products = [
-        // Accessoires
         { id: 1, name: "Sac en cuir végétal", price: 89.99, icon: "👜", category: "accessoires", badge: "Best Seller" },
         { id: 2, name: "Ceinture réversible", price: 49.90, icon: "⛓️", category: "accessoires", badge: "" },
         { id: 3, name: "Portefeuille homme", price: 59.00, icon: "👛", category: "accessoires", badge: "Nouveau" },
-        // Montres
         { id: 4, name: "Montre minimaliste", price: 129.00, icon: "⌚", category: "montres", badge: "" },
         { id: 5, name: "Montre automatique", price: 249.00, icon: "⌚", category: "montres", badge: "Édition limitée" },
         { id: 6, name: "Montre connectée", price: 189.00, icon: "📱⌚", category: "montres", badge: "" },
-        // Audio
         { id: 7, name: "Casque HD studio", price: 79.00, icon: "🎧", category: "audio", badge: "" },
         { id: 8, name: "Écouteurs True Wireless", price: 59.90, icon: "🎵", category: "audio", badge: "Promo" },
         { id: 9, name: "Enceinte portable", price: 45.00, icon: "🔊", category: "audio", badge: "" },
-        // Lunettes
         { id: 10, name: "Lunettes soleil", price: 59.90, icon: "🕶️", category: "lunettes", badge: "" },
         { id: 11, name: "Lunettes vue design", price: 89.00, icon: "👓", category: "lunettes", badge: "" },
         { id: 12, name: "Monture or fin", price: 119.00, icon: "✨👓", category: "lunettes", badge: "Premium" },
-        // Beauté
         { id: 13, name: "Parfum élite", price: 49.99, icon: "🧴", category: "beauté", badge: "" },
         { id: 14, name: "Eau de toilette", price: 39.90, icon: "🧴", category: "beauté", badge: "" },
         { id: 15, name: "Coffret soins", price: 79.00, icon: "🎁", category: "beauté", badge: "Cadeau" },
-        // Papeterie
         { id: 16, name: "Carnet cuir", price: 24.90, icon: "📓", category: "papeterie", badge: "" },
         { id: 17, name: "Stylo plume", price: 35.00, icon: "✒️", category: "papeterie", badge: "" },
         { id: 18, name: "Set écriture luxe", price: 59.00, icon: "🖋️", category: "papeterie", badge: "Nouveau" },
-        // Mode
         { id: 19, name: "T-shirt premium", price: 39.90, icon: "👕", category: "mode", badge: "" },
         { id: 20, name: "Chemise en lin", price: 69.00, icon: "👔", category: "mode", badge: "" },
         { id: 21, name: "Veste en jean", price: 99.00, icon: "🧥", category: "mode", badge: "Best Seller" },
@@ -552,7 +581,18 @@
     let cart = [];
     let currentFilter = "all";
 
-    // Charger depuis localStorage
+    // Notification
+    function showNotification(message) {
+        const notif = document.createElement("div");
+        notif.className = "toast-notif";
+        notif.innerHTML = message;
+        document.body.appendChild(notif);
+        setTimeout(() => {
+            if (notif) notif.remove();
+        }, 2000);
+    }
+
+    // Panier
     function loadCart() {
         const stored = localStorage.getItem("jawal_cart");
         if (stored) {
@@ -578,7 +618,7 @@
         saveCart();
         updateCartUI();
         openCartSidebar();
-        animateCartIcon();
+        showNotification("✓ " + product.name + " ajouté au panier");
     }
 
     function removeFromCart(productId) {
@@ -628,9 +668,9 @@
                         <div><strong>${item.name}</strong></div>
                         <div>${item.price.toFixed(2)} €</div>
                         <div style="display: flex; align-items: center; gap: 12px; margin-top: 8px;">
-                            <button class="cart-qty-btn" data-id="${item.id}" data-action="decr" style="background:#f0f0f0; border:none; width:28px; border-radius:20px;">−</button>
+                            <button class="cart-qty-btn" data-id="${item.id}" data-action="decr" style="background:#f0f0f0; border:none; width:28px; border-radius:20px; cursor:pointer;">−</button>
                             <span>${item.quantity}</span>
-                            <button class="cart-qty-btn" data-id="${item.id}" data-action="incr" style="background:#f0f0f0; border:none; width:28px; border-radius:20px;">+</button>
+                            <button class="cart-qty-btn" data-id="${item.id}" data-action="incr" style="background:#f0f0f0; border:none; width:28px; border-radius:20px; cursor:pointer;">+</button>
                             <button class="cart-remove-btn" data-id="${item.id}" style="margin-left: auto; background:none; border:none; color:#c9a03d; cursor:pointer;">🗑️</button>
                         </div>
                     </div>
@@ -657,6 +697,7 @@
     const sidebar = document.getElementById("cartSidebar");
     const openCartBtn = document.getElementById("cartIconBtn");
     const closeCartBtn = document.getElementById("closeCartBtn");
+    const continueShoppingBtn = document.getElementById("continueShoppingBtn");
 
     function openCartSidebar() {
         overlay.classList.add("open");
@@ -670,14 +711,11 @@
     openCartBtn.addEventListener("click", openCartSidebar);
     closeCartBtn.addEventListener("click", closeCartSidebar);
     overlay.addEventListener("click", closeCartSidebar);
-
-    function animateCartIcon() {
-        const icon = document.getElementById("cartIconBtn");
-        icon.style.transform = "scale(1.1)";
-        setTimeout(() => { icon.style.transform = "scale(1)"; }, 200);
+    if (continueShoppingBtn) {
+        continueShoppingBtn.addEventListener("click", closeCartSidebar);
     }
 
-    // Filtrage et rendu produits
+    // Produits
     function renderProducts() {
         const container = document.getElementById("productsContainer");
         const filtered = currentFilter === "all" ? products : products.filter(p => p.category === currentFilter);
@@ -719,7 +757,7 @@
         });
     });
 
-    // Gestion du formulaire de commande Formspree
+    // Formulaire de commande
     const orderModal = document.getElementById("orderModal");
     const closeModalBtn = document.getElementById("closeModalBtn");
     const orderForm = document.getElementById("orderForm");
@@ -732,7 +770,6 @@
             return;
         }
         
-        // Préparer le détail de la commande
         let details = "🛍️ DÉTAIL DE LA COMMANDE :\n\n";
         cart.forEach(item => {
             details += `• ${item.name} x${item.quantity} = ${(item.price * item.quantity).toFixed(2)} €\n`;
@@ -742,24 +779,20 @@
         commandeDetails.value = details;
         montantTotal.value = getTotal().toFixed(2) + " €";
         
-        // Afficher le modal
         orderModal.style.display = "flex";
         closeCartSidebar();
     });
 
-    // Fermer le modal
     closeModalBtn.addEventListener("click", () => {
         orderModal.style.display = "none";
     });
 
-    // Fermer en cliquant en dehors
     orderModal.addEventListener("click", (e) => {
         if (e.target === orderModal) {
             orderModal.style.display = "none";
         }
     });
 
-    // Soumission du formulaire
     orderForm.addEventListener("submit", function(e) {
         alert("📧 Commande envoyée ! Vous recevrez un email de confirmation.");
         cart = [];
@@ -768,7 +801,6 @@
         orderModal.style.display = "none";
     });
 
-    // Vérifier si la commande a été envoyée avec succès (redirection Formspree)
     if (window.location.href.includes("?success")) {
         alert("✅ Merci ! Votre commande a été reçue. Nous vous contacterons rapidement.");
         cart = [];
