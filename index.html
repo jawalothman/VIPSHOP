@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Jawal Store | Collection Premium</title>
+    <!-- Google Fonts + Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fafbfc;
+            color: #111827;
+            scroll-behavior: smooth;
+        }
+
+        /* Navigation fixe moderne */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            z-index: 100;
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #c9a03d, #8b6914);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .logo-text {
+            background: linear-gradient(135deg, #1a2a3a, #2c4c5c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .jawal-badge {
+            font-size: 0.7rem;
+            background: #f5e6d3;
+            padding: 4px 10px;
+            border-radius: 30px;
+            color: #a07a3a;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #2c3e44;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #c9a03d;
+        }
+
+        .cart-icon {
+            position: relative;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .cart-icon:hover {
+            transform: scale(1.05);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -12px;
+            background: #c9a03d;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 30px;
+        }
+
+        /* Hero section avec signature Jawal */
+        .hero {
+            background: linear-gradient(120deg, #f8f5f0 0%, #e8e2d8 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "JAWAL";
+            position: absolute;
+            font-size: 8rem;
+            font-weight: 800;
+            opacity: 0.03;
+            bottom: -20px;
+            right: -30px;
+            letter-spacing: 10px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1a2a3a, #8b6914);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .hero .signature {
+            font-family: 'Inter', cursive;
+            font-size: 1.2rem;
+            color: #c9a03d;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #4a5568;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #1a2a3a;
+            color: white;
+            padding: 12px 32px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.25s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #c9a03d;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Filtres */
+        .filters-section {
+            max-width: 1400px;
+            margin: 2rem auto 0;
+            padding: 0 2rem;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            border-radius: 30px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: #c9a03d;
+            color: white;
+            border-color: #c9a03d;
+        }
+
+        /* Grille produits */
+        .products-section {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #edf2f7;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.12);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, #f7f3ec, #ede5d9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.02);
+        }
+
+        .product-info {
+            padding: 1.2rem;
+        }
+
+        .product-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .product-category {
+            font-size: 0.75rem;
+            color: #c9a03d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #1a2a3a;
+            margin: 0.5rem 0;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            background: #1a2a3a;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .add-to-cart:hover {
+            background: #c9a03d;
+        }
+
+        /* Panier latéral */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(4px);
+            z-index: 200;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+        }
+
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 90%;
+            max-width: 450px;
+            height: 100%;
+            background: white;
+            box-shadow: -5px 0 25px rgba(0,0,0,0.1);
+            z-index: 201;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            transition: right 0.3s ease;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-overlay.open {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #f0e6d8;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-total {
+            padding-top: 1rem;
+            font-weight: 800;
+            font-size: 1.3rem;
+            border-top: 2px solid #f0e6d8;
+            margin: 1rem 0;
+        }
+
+        .checkout-btn {
+            background: #c9a03d;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .checkout-btn:hover {
+            background: #a07a2a;
+        }
+
+        footer {
+            background: #1a2a3a;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            color: #b4c4ce;
+        }
+
+        footer .jawal-footer {
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            color: #c9a03d;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 640px) {
+            .hero h1 { font-size: 2rem; }
+            .nav-container { flex-direction: column; }
+            .products-grid { gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="logo">
+            <div class="logo-icon">J</div>
+            <div>
+                <span class="logo-text">JAWAL</span>
+                <span class="jawal-badge">SIGNATURE</span>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="#">Accueil</a>
+            <a href="#produits">Collection</a>
+            <a href="#">Exclusivités</a>
+            <div id="cartIconBtn" class="cart-icon">
+                <i class="fas fa-shopping-bag"></i>
+                <span id="cartCountDisplay" class="cart-count">0</span>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<section class="hero">
+    <h1>JAWAL <span style="color:#c9a03d;">ÉDITION</span></h1>
+    <div class="signature">✦ LUXE & MODERNITÉ ✦</div>
+    <p>La quintessence du style contemporain — chaque pièce raconte une histoire d'élégance.</p>
+    <a href="#produits" class="btn">Explorer la collection <i class="fas fa-arrow-right"></i></a>
+</section>
+
+<div class="filters-section">
+    <div class="filter-buttons" id="filterButtons">
+        <button class="filter-btn active" data-category="all">Tous</button>
+        <button class="filter-btn" data-category="accessoires">Accessoires</button>
+        <button class="filter-btn" data-category="montres">Montres</button>
+        <button class="filter-btn" data-category="audio">Audio</button>
+        <button class="filter-btn" data-category="lunettes">Lunettes</button>
+        <button class="filter-btn" data-category="beauté">Beauté</button>
+        <button class="filter-btn" data-category="papeterie">Papeterie</button>
+        <button class="filter-btn" data-category="mode">Mode</button>
+    </div>
+</div>
+
+<section id="produits" class="products-section">
+    <h2 class="section-title">✨ Collection Signature Jawal</h2>
+    <div class="products-grid" id="productsContainer"></div>
+</section>
+
+<footer>
+    <div class="jawal-footer">JAWAL</div>
+    <p>© 2025 Jawal Signature — L'élégance à portée de main</p>
+    <p style="font-size: 0.8rem; margin-top: 10px;">Livraison internationale • Paiement sécurisé</p>
+</footer>
+
+<!-- Panier -->
+<div id="cartOverlay" class="cart-overlay"></div>
+<div id="cartSidebar" class="cart-sidebar">
+    <div class="cart-header">
+        <h3><i class="fas fa-shopping-bag"></i> Mon panier Jawal</h3>
+        <button id="closeCartBtn" style="background: none; border: none; font-size: 1.8rem; cursor: pointer;">&times;</button>
+    </div>
+    <div id="cartItemsList" class="cart-items">
+        <div class="empty-cart" style="text-align:center; padding:2rem;">Votre panier est vide.</div>
+    </div>
+    <div id="cartFooter" style="display: none;">
+        <div class="cart-total">Total : <span id="cartTotalPrice">0.00</span> €</div>
+        <button class="btn checkout-btn" id="checkoutBtn"><i class="fas fa-lock"></i> Commander</button>
+    </div>
+</div>
+
+<script>
+    // =========== BEAUCOUP DE PRODUITS (24 articles) ===========
+    const products = [
+        // Accessoires
+        { id: 1, name: "Sac en cuir végétal", price: 89.99, icon: "👜", category: "accessoires", badge: "Best Seller" },
+        { id: 2, name: "Ceinture réversible", price: 49.90, icon: "⛓️", category: "accessoires", badge: "" },
+        { id: 3, name: "Portefeuille homme", price: 59.00, icon: "👛", category: "accessoires", badge: "Nouveau" },
+        // Montres
+        { id: 4, name: "Montre minimaliste", price: 129.00, icon: "⌚", category: "montres", badge: "" },
+        { id: 5, name: "Montre automatique", price: 249.00, icon: "⌚", category: "montres", badge: "Édition limitée" },
+        { id: 6, name: "Montre connectée", price: 189.00, icon: "📱⌚", category: "montres", badge: "" },
+        // Audio
+        { id: 7, name: "Casque HD studio", price: 79.00, icon: "🎧", category: "audio", badge: "" },
+        { id: 8, name: "Écouteurs True Wireless", price: 59.90, icon: "🎵", category: "audio", badge: "Promo" },
+        { id: 9, name: "Enceinte portable", price: 45.00, icon: "🔊", category: "audio", badge: "" },
+        // Lunettes
+        { id: 10, name: "Lunettes soleil", price: 59.90, icon: "🕶️", category: "lunettes", badge: "" },
+        { id: 11, name: "Lunettes vue design", price: 89.00, icon: "👓", category: "lunettes", badge: "" },
+        { id: 12, name: "Monture or fin", price: 119.00, icon: "✨👓", category: "lunettes", badge: "Premium" },
+        // Beauté
+        { id: 13, name: "Parfum élite", price: 49.99, icon: "🧴", category: "beauté", badge: "" },
+        { id: 14, name: "Eau de toilette", price: 39.90, icon: "🧴", category: "beauté", badge: "" },
+        { id: 15, name: "Coffret soins", price: 79.00, icon: "🎁", category: "beauté", badge: "Cadeau" },
+        // Papeterie
+        { id: 16, name: "Carnet cuir", price: 24.90, icon: "📓", category: "papeterie", badge: "" },
+        { id: 17, name: "Stylo plume", price: 35.00, icon: "✒️", category: "papeterie", badge: "" },
+        { id: 18, name: "Set écriture luxe", price: 59.00, icon: "🖋️", category: "papeterie", badge: "Nouveau" },
+        // Mode
+        { id: 19, name: "T-shirt premium", price: 39.90, icon: "👕", category: "mode", badge: "" },
+        { id: 20, name: "Chemise en lin", price: 69.00, icon: "👔", category: "mode", badge: "" },
+        { id: 21, name: "Veste en jean", price: 99.00, icon: "🧥", category: "mode", badge: "Best Seller" },
+        { id: 22, name: "Pull cachemire", price: 129.00, icon: "🧶", category: "mode", badge: "Premium" },
+        { id: 23, name: "Chaussures cuir", price: 149.00, icon: "👞", category: "mode", badge: "" },
+        { id: 24, name: "Sac bandoulière", price: 79.90, icon: "👜", category: "accessoires", badge: "Tendance" }
+    ];
+
+    let cart = [];
+    let currentFilter = "all";
+
+    // Charger depuis localStorage
+    function loadCart() {
+        const stored = localStorage.getItem("jawal_cart");
+        if (stored) {
+            try { cart = JSON.parse(stored); } catch(e) { cart = []; }
+        }
+        updateCartUI();
+    }
+
+    function saveCart() {
+        localStorage.setItem("jawal_cart", JSON.stringify(cart));
+    }
+
+    function addToCart(productId) {
+        const product = products.find(p => p.id === productId);
+        if (!product) return;
+        
+        const existing = cart.find(item => item.id === productId);
+        if (existing) {
+            existing.quantity += 1;
+        } else {
+            cart.push({ ...product, quantity: 1 });
+        }
+        saveCart();
+        updateCartUI();
+        openCartSidebar();
+        animateCartIcon();
+    }
+
+    function removeFromCart(productId) {
+        cart = cart.filter(item => item.id !== productId);
+        saveCart();
+        updateCartUI();
+    }
+
+    function updateQuantity(productId, delta) {
+        const item = cart.find(i => i.id === productId);
+        if (item) {
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                removeFromCart(productId);
+            } else {
+                saveCart();
+                updateCartUI();
+            }
+        }
+    }
+
+    function getTotal() {
+        return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    }
+
+    function updateCartUI() {
+        const totalItems = cart.reduce((sum, i) => sum + i.quantity, 0);
+        document.getElementById("cartCountDisplay").innerText = totalItems;
+
+        const cartItemsDiv = document.getElementById("cartItemsList");
+        const cartFooter = document.getElementById("cartFooter");
+        const totalSpan = document.getElementById("cartTotalPrice");
+
+        if (cart.length === 0) {
+            cartItemsDiv.innerHTML = `<div style="text-align:center; padding:2rem;">🛍️ Votre panier Jawal est vide</div>`;
+            cartFooter.style.display = "none";
+            return;
+        }
+
+        cartFooter.style.display = "block";
+        let html = "";
+        cart.forEach(item => {
+            html += `
+                <div class="cart-item">
+                    <div style="font-size: 2rem;">${item.icon}</div>
+                    <div class="cart-item-details">
+                        <div><strong>${item.name}</strong></div>
+                        <div>${item.price.toFixed(2)} €</div>
+                        <div style="display: flex; align-items: center; gap: 12px; margin-top: 8px;">
+                            <button class="cart-qty-btn" data-id="${item.id}" data-action="decr" style="background:#f0f0f0; border:none; width:28px; border-radius:20px;">−</button>
+                            <span>${item.quantity}</span>
+                            <button class="cart-qty-btn" data-id="${item.id}" data-action="incr" style="background:#f0f0f0; border:none; width:28px; border-radius:20px;">+</button>
+                            <button class="cart-remove-btn" data-id="${item.id}" style="margin-left: auto; background:none; border:none; color:#c9a03d; cursor:pointer;">🗑️</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        cartItemsDiv.innerHTML = html;
+        totalSpan.innerText = getTotal().toFixed(2);
+
+        document.querySelectorAll('.cart-qty-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(btn.dataset.id);
+                const action = btn.dataset.action;
+                updateQuantity(id, action === 'incr' ? 1 : -1);
+            });
+        });
+        document.querySelectorAll('.cart-remove-btn').forEach(btn => {
+            btn.addEventListener('click', () => removeFromCart(parseInt(btn.dataset.id)));
+        });
+    }
+
+    // Panier latéral
+    const overlay = document.getElementById("cartOverlay");
+    const sidebar = document.getElementById("cartSidebar");
+    const openCartBtn = document.getElementById("cartIconBtn");
+    const closeCartBtn = document.getElementById("closeCartBtn");
+
+    function openCartSidebar() {
+        overlay.classList.add("open");
+        sidebar.classList.add("open");
+    }
+    function closeCartSidebar() {
+        overlay.classList.remove("open");
+        sidebar.classList.remove("open");
+    }
+
+    openCartBtn.addEventListener("click", openCartSidebar);
+    closeCartBtn.addEventListener("click", closeCartSidebar);
+    overlay.addEventListener("click", closeCartSidebar);
+
+    function animateCartIcon() {
+        const icon = document.getElementById("cartIconBtn");
+        icon.style.transform = "scale(1.1)";
+        setTimeout(() => { icon.style.transform = "scale(1)"; }, 200);
+    }
+
+    // Filtrage et rendu produits
+    function renderProducts() {
+        const container = document.getElementById("productsContainer");
+        const filtered = currentFilter === "all" ? products : products.filter(p => p.category === currentFilter);
+        
+        container.innerHTML = "";
+        filtered.forEach(product => {
+            const card = document.createElement("div");
+            card.className = "product-card";
+            card.innerHTML = `
+                <div class="product-img">${product.icon}</div>
+                <div class="product-info">
+                    <div class="product-category">${product.category}</div>
+                    <div class="product-title">${product.name}</div>
+                    <div class="product-price">${product.price.toFixed(2)} €</div>
+                    <button class="add-to-cart" data-id="${product.id}">
+                        <i class="fas fa-cart-plus"></i> Ajouter
+                    </button>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        document.querySelectorAll(".add-to-cart").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const id = parseInt(btn.getAttribute("data-id"));
+                addToCart(id);
+            });
+        });
+    }
+
+    // Filtres
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            currentFilter = btn.dataset.category;
+            renderProducts();
+        });
+    });
+
+    // Paiement
+    document.getElementById("checkoutBtn")?.addEventListener("click", () => {
+        if (cart.length === 0) {
+            alert("Ajoutez des produits Jawal à votre panier");
+            return;
+        }
+        alert(`✅ Commande Jawal confirmée ! Total : ${getTotal().toFixed(2)} €\nMerci pour votre confiance.`);
+        cart = [];
+        saveCart();
+        updateCartUI();
+        closeCartSidebar();
+    });
+
+    loadCart();
+    renderProducts();
+</script>
+</body>
+</html>
